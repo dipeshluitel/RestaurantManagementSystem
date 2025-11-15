@@ -9,6 +9,7 @@ def create_default_groups(sender, **kwargs):
     for group in groups:
         Group.objects.get_or_create(name=group)
 
+# for auto profile creation on signup
 @receiver(post_save, sender = User)
 def create_user_profile(sender,instance,created,**kwargs):
     if created:
