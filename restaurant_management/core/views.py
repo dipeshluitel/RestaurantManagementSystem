@@ -1,20 +1,24 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
-
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 # Create your views here.
-@login_required
-def dashboard(request):
-    user_groups = request.user.groups.values_list('name', flat=True)
+class CustomLogin(LoginView):
+    template_name = 'login.html'
 
-    if 'Admin' in user_groups:
-        return redirect('admin_dashboard')
-    elif 'Waiter' in user_groups:
-        return redirect('waiter_dashboard')
-    elif 'Kitchen' in user_groups:
-        return redirect('kitchen_dashboard')
-    else:
-        return redirect('logout')
+    def get_success_url(self):
+        user = self.request.user
+        role = self.request.user.profile.role
+
+        if role == "Admin":
+            return reverse_lazy('admin_dashboard')
+        elif role == "Waiter":
+            return reverse_lazy('waiter_dashboard')
+        elif role == "Kitchen":
+            return reverse_lazy('kitchen_dashboard')
+        
+        return reverse_lazy('login')
     
     
 @login_required

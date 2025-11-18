@@ -3,12 +3,6 @@ from django.contrib.auth.models import Group,User
 from django.dispatch import receiver
 from .models import Profile
 
-@receiver(post_migrate)
-def create_default_groups(sender, **kwargs):
-    groups = ['Admin', 'Waiter', 'Kitchen']
-    for group in groups:
-        Group.objects.get_or_create(name=group)
-
 # for auto profile creation on signup
 @receiver(post_save, sender = User)
 def create_user_profile(sender,instance,created,**kwargs):
