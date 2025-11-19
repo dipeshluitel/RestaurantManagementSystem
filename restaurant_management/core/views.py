@@ -19,8 +19,7 @@ class CustomLogin(LoginView):
             return reverse_lazy('kitchen_dashboard')
         
         return reverse_lazy('login')
-    
-    
+
 @login_required
 def admin_dashboard(request):
     if request.user.profile.role != 'Admin':
