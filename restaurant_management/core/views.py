@@ -23,12 +23,18 @@ class CustomLogin(LoginView):
     
 @login_required
 def admin_dashboard(request):
+    if request.user.profile.role != 'Admin':
+        return redirect('login')
     return render(request, 'admin_dashboard.html')
 
 @login_required
 def waiter_dashboard(request):
+    if request.user.profile.role != 'Waiter':
+        return redirect('login')
     return render(request, 'waiter_dashboard.html')
 
 @login_required
 def kitchen_dashboard(request):
+    if request.user.profile.role != 'Kitchen':
+        return redirect('login')
     return render(request, 'kitchen_dashboard.html')
