@@ -1,4 +1,14 @@
-<h2>Welcome Admin {{ user.username }}</h2>
+<h1>Welcome Admin <span>{{ user.username }}</span></h1>
+<h2>Admin Dashboard:</h2>
+<h4>{{time}}</h4>
+
+<ul>
+    <li>Total Orders: {{order_count}} </li>
+    <li>Pending Orders: {{pending}}</li>
+    <li>Completed Orders:{{completed}}</li>
+    <li>Orders on Kitchen:{{cooking}}</li>
+</ul>
+
 <form method="post" action = '{% url 'logout'%}'>
     {% csrf_token %}
     <button type="submit">Logout</button>

@@ -1,8 +1,12 @@
+import datetime
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+
+from .models import Order
+
 # Create your views here.
 class CustomLogin(LoginView):
     template_name = 'login.html'
@@ -24,7 +28,17 @@ class CustomLogin(LoginView):
 def admin_dashboard(request):
     if request.user.profile.role != 'Admin':
         return redirect('login')
-    return render(request, 'admin_dashboard.html')
+    time = datetime.datetime.now()
+    order_count = Order.objects.count()
+    pending_order_count = Order.objects.filter(status='pending').count()
+    completed_order_count = Order.objects.filter(status='serverd').count()
+    cooking_order_count = Order.objects.filter(status='cooking').count()
+    return render(request, 'admin_dashboard.html',
+    {'order_count':order_count, 
+    'completed':completed_order_count,
+    'pending':pending_order_count,
+    'cooking':cooking_order_count,
+    'time':time})
 
 @login_required
 def waiter_dashboard(request):
