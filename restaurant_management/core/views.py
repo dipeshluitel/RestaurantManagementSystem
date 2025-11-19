@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 
-from .models import Order
+from .models import MenuItems, Order
 
 # Create your views here.
 class CustomLogin(LoginView):
@@ -44,7 +44,12 @@ def admin_dashboard(request):
 def waiter_dashboard(request):
     if request.user.profile.role != 'Waiter':
         return redirect('login')
-    return render(request, 'waiter_dashboard.html')
+    time = datetime.datetime.now()  
+    menu_items = MenuItems.objects.all()
+
+    return render(request, 'waiter_dashboard.html',
+    {'time':time,
+     'items':menu_items})
 
 @login_required
 def kitchen_dashboard(request):
