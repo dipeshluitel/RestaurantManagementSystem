@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from .forms import OrderForm
 
 from .models import MenuItems, Order
 
@@ -56,3 +57,19 @@ def kitchen_dashboard(request):
     if request.user.profile.role != 'Kitchen':
         return redirect('login')
     return render(request, 'kitchen_dashboard.html')
+
+@login_required
+def create_order(request):
+    if request.user.profile.role!= 'Waiter':
+        return redirect('login')
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.waiter = request.user
+            order.save()
+            return redirect('waiter_dashboard')
+        
+    else:
+        form = OrderForm()
+    return render(request,'create_order.html',{'form':form})

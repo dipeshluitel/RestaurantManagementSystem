@@ -34,11 +34,26 @@ class MenuItems(models.Model):
     
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending','Pending'),('cooking','Cooking'),('serverd','Served'),('paid','Paid'),
+        ('pending','Pending'),
+        ('cooking','Cooking'),
+        ('serverd','Served'),
+        ('paid','Paid'),
+    ]
+    TABLE_NUMBER = [
+        ('A1','A1'),('A2','A2'),('A3','A3'),
+        ('B1','B1'),('B2','B2'),('B3','B3'),
+        ('C1','C1'),('C2','C2'),('C3','C3'),
+        ('Takeaway','Takeaway'),
+    ]
+    CUSTOMER_TYPE=[
+        ('Special Guests','Special Guests'),('Normal Guests','Normal Guests')
     ]
     waiter = models.ForeignKey(User,on_delete=models.CASCADE)
     order_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='pending')
+    customer_type = models.CharField(max_length=20,choices=CUSTOMER_TYPE,verbose_name='Customer Type')
+    table_number = models.CharField(max_length=10,choices=TABLE_NUMBER,verbose_name='Table Number')
+    notes = models.TextField(max_length=400,blank=True,null=True, verbose_name='Special Requirements')
 
     def __str__(self):
         return f"Order {self.id} by {self.waiter.username}"
