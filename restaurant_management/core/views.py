@@ -32,7 +32,7 @@ def admin_dashboard(request):
     time = datetime.datetime.now()
     order_count = Order.objects.count()
     pending_order_count = Order.objects.filter(status='pending').count()
-    completed_order_count = Order.objects.filter(status='serverd').count()
+    completed_order_count = Order.objects.filter(status='served').count()
     cooking_order_count = Order.objects.filter(status='cooking').count()
     return render(request, 'admin_dashboard.html',
     {'order_count':order_count, 
@@ -55,8 +55,11 @@ def waiter_dashboard(request):
 @login_required
 def kitchen_dashboard(request):
     if request.user.profile.role != 'Kitchen':
-        return redirect('login')
-    return render(request, 'kitchen_dashboard.html')
+      return redirect('login')
+    time=datetime.datetime.now()
+    orders =  Order.objects.filter(status__in = ["pending","cooking"])
+            
+    return render(request, 'kitchen_dashboard.html',{'orders':orders,'time':time})
 
 @login_required
 def create_order(request):
@@ -73,3 +76,16 @@ def create_order(request):
     else:
         form = OrderForm()
     return render(request,'create_order.html',{'form':form})
+
+
+@login_required
+def update_order_status(request,order_id):
+    if request.user.profile.role != "Kitchen":
+        return redirect('login')
+    order = Order.objects.get(id=order_id)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        order.status = new_status
+        order.save()
+    
+    return redirect('kitchen_dashboard')

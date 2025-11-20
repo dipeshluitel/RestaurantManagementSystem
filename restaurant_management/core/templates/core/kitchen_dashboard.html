@@ -1,4 +1,46 @@
-<h2>Welcome Kitchen Staff {{ user.username }}</h2>
+<h1>Welcome Kitchen Staff {{ user.username }}</h1>
+<h3>{{time}}</h3>
+<table border="1px">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Waiter</th>
+            <th>Table</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.waiter }}</td>
+            <td>{{ order.table_number }}</td>
+            <td>{{ order.status }}</td>
+            <td>{%if order.status == "pending"%}
+                    <form action="{% url 'update_order_status' order.id%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status"
+                        value="cooking">
+                        <button type="submit">Start Cooking</button>
+                    </form>
+                {%endif%}
+
+                {%if order.status == "cooking"%}
+                    <form action="{% url 'update_order_status' order.id%}" method="post">
+                        {%csrf_token%}
+                        <input type="hidden" name="status"
+                        value="served">
+                        <button type="submit">Served</button>
+                    </form>
+                {%endif%}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 <form method="post" action = '{% url 'logout'%}'>
     {% csrf_token %}
     <button type="submit">Logout</button>
