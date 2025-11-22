@@ -8,6 +8,7 @@
    {% endfor %}
     </ul>
 <a href ="{% url 'create_order' %}">Create Order</a>
+<a href ="{% url 'give_order' %}">Give Order</a>
 <form method="post" action = '{% url 'logout'%}'>
     {% csrf_token %}
     <button type="submit">Logout</button>

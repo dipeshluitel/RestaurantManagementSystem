@@ -77,6 +77,22 @@ def create_order(request):
         form = OrderForm()
     return render(request,'create_order.html',{'form':form})
 
+@login_required
+def give_order(request):
+    if request.user.profile.role!= 'Waiter':
+        return redirect('login')
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.waiter = request.user
+            order.save()
+            return redirect('waiter_dashboard')
+        
+    else:
+        form = OrderForm()
+    return render(request,'create_order.html',{'form':form})
+
 
 @login_required
 def update_order_status(request,order_id):

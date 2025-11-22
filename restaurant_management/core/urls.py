@@ -11,6 +11,7 @@ urlpatterns = [
     path('dashboard/waiter/', views.waiter_dashboard, name='waiter_dashboard'),
     path('dashboard/kitchen/', views.kitchen_dashboard, name='kitchen_dashboard'),
     path('dashboard/waiter/createorder', views.create_order, name='create_order'),
+    path('dashboard/waiter/giveorder<int:order_id>', views.give_order, name='give_order'),
     path('dashboard/kitchen/update/<int:order_id>',views.update_order_status,name='update_order_status')
     
 ]
