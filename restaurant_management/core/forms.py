@@ -1,5 +1,5 @@
 from django import forms
-from .models import Order
+from .models import Order, OrderItem
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -11,3 +11,8 @@ class OrderForm(forms.ModelForm):
             'table_number': forms.Select(attrs={'class':'form-control'}),
             'notes': forms.Textarea(attrs={'class':'form-control'}),
         }
+
+class PlaceOrderForm(forms.ModelForm):
+    class Meta:
+        model = OrderItem
+        fields = ['order', 'item','quantity']

@@ -56,7 +56,8 @@ class Order(models.Model):
     notes = models.TextField(max_length=400,blank=True,null=True, verbose_name='Special Requirements')
 
     def __str__(self):
-        return f"Order {self.id} by {self.waiter.username}"
+        time = self.order_time.strftime('%H:%M')
+        return f"Table {self.table_number} by {self.waiter.username} at {time}"
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,related_name='items', on_delete=models.CASCADE)
