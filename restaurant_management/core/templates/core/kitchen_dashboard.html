@@ -17,7 +17,13 @@
             <td>{{ order.id }}</td>
             <td>{{ order.waiter }}</td>
             <td>{{ order.table_number }}</td>
-            <td>{{order.item.name}}</td>
+            <td>
+                {% for order_item in order.items.all %}
+                    {{ order_item.quantity }} x {{ order_item.item.name }}<br>
+                {% empty %}
+                    No items
+                {% endfor %}
+            </td>
             <td>{{ order.status }}</td>
             <td>{%if order.status == "pending"%}
                     <form action="{% url 'update_order_status' order.id%}" method="post">
