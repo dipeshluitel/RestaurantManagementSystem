@@ -57,7 +57,7 @@ def kitchen_dashboard(request):
     if request.user.profile.role != 'Kitchen':
       return redirect('login')
     time=datetime.datetime.now()
-    orders =  Order.objects.filter(status__in = ["pending","cooking"]).prefetch_related('items')
+    orders =  Order.objects.filter(status__in = ["pending","cooking"])
             
     return render(request, 'kitchen_dashboard.html',{'orders':orders,'time':time})
 
