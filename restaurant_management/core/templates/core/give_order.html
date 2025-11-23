@@ -1,5 +1,7 @@
-<form action="{% url 'give_order' %}" method="post">
+<h3>Order created for table {{ order.table_number }}</h3>
+<form action="{% url 'give_order' order.id %}" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit">
 </form>
+<a href="{% url 'waiter_dashboard'%}">Go Back To Dashboard</a>

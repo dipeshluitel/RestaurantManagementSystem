@@ -71,27 +71,30 @@ def create_order(request):
             order = form.save(commit=False)
             order.waiter = request.user
             order.save()
-            return redirect('waiter_dashboard')
+            return redirect('give_order', order_id = order.id)
         
     else:
         form = OrderForm()
     return render(request,'create_order.html',{'form':form})
 
 @login_required
-def give_order(request):
+def give_order(request,order_id):
     if request.user.profile.role!= 'Waiter':
         return redirect('login')
+    
+    order = Order.objects.get(id = order_id)
+
     if request.method == 'POST':
         form = PlaceOrderForm(request.POST)
         if form.is_valid():
-            order = form.save(commit=False)
-            order.waiter = request.user
-            order.save()
-            return redirect('waiter_dashboard')
+            item = form.save(commit=False)
+            item.order = order
+            item.save()
+            return redirect('give_order', order_id=order.id)
         
     else:
         form =PlaceOrderForm()
-    return render(request,'give_order.html',{'form':form})
+    return render(request,'give_order.html',{'form':form, 'order': order, 'items': order.items.all()})
 
 
 @login_required
