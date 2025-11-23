@@ -1,29 +1,21 @@
-# Restaurant Management System (Django) (Ongoing)
+# Restaurant Management System (Django)  
 
-A simple Django-based restaurant management system with role-based dashboards for **Admin**, **Waiter**, and **Kitchen Staff**.
+> **Status:** Ongoing Project  
 
----
-
-## Table of Contents
-
-1. [Project Overview](#project-overview)  
-2. [Models](#models)  
-3. [Views](#views)  
-4. [Templates](#templates)  
-5. [URLs](#urls)  
-6. [Usage](#usage)  
+A Django-based restaurant management system with **role-based dashboards** for Admin, Waiter, and Kitchen Staff.  
+This project is under development and new features will be added gradually.
 
 ---
 
 ## Project Overview
 
-This project allows:
+This system allows:
 
-- **Admin**: View summary of orders and statuses.
-- **Waiter**: Create orders and add items to them.
-- **Kitchen Staff**: View pending/cooking orders, update status to cooking or served.
+- **Admin**: View a summary of all orders and their statuses.  
+- **Waiter**: Create orders, add items to orders.  
+- **Kitchen Staff**: View pending/cooking orders and update order status.  
 
-Role-based access ensures users only access their respective dashboards.
+Role-based access ensures each user only accesses their relevant dashboard.
 
 ---
 
